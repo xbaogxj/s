@@ -1,6 +1,5 @@
 ---
-import { BackgroundProvider } from '../lib/backgroundContext';
-import SharedBackground from '../components/SharedBackground';
+import BackgroundWrapper from '../components/BackgroundWrapper';
 import '../styles/globals.css';
 
 interface Props {
@@ -38,7 +37,7 @@ const { title = '脸书小助手' } = Astro.props;
         script.charset = 'UTF-8';
         script.src = 'https://sdk.51.la/js-sdk-pro.min.js';
         script.onerror = function() {
-          console.log('Analytics script failed to load');
+          // Silently fail if analytics script cannot load
         };
         script.onload = function() {
           if (window.LA) {
@@ -55,9 +54,8 @@ const { title = '脸书小助手' } = Astro.props;
     </script>
   </head>
   <body class="antialiased">
-    <BackgroundProvider client:only="react">
-      <SharedBackground client:only="react" />
+    <BackgroundWrapper client:only="react">
       <slot />
-    </BackgroundProvider>
+    </BackgroundWrapper>
   </body>
 </html>
